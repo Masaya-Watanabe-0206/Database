@@ -22,15 +22,15 @@ class SingleUploadModelForm(forms.ModelForm):
 class BaseUploadFormSet(forms.BaseFormSet):
 
     def save(self):
-        # ['/media/1.png', '/media/2.png']のようなファイルのURLが入ったリストになる
+
         url_list = []
 
-        # SingleUploadFormのsaveを順に呼び出し、ファイルURLを集める
+
         for form in self.forms:
             try:
                 url = form.save()
             except KeyError:
-                # ファイルがアップロードされていないフォームは、KeyErrorになるので、ここで無視する
+
                 pass
             else:
                 url_list.append(url)
