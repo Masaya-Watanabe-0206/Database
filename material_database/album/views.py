@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import SingleUploadForm, SingleUploadModelForm, UploadFormSet, UploadModelFormSet, MultipleUploadForm
+from .forms import SingleForm, SingleModelForm, UploadFormSet, ModelFormSet, MultipleForm
 from .models import Image
 
 
 
 class SingleUploadView(generic.FormView):
-    form_class = SingleUploadForm
+    form_class = SingleForm
     template_name = 'album/base.html'
 
     def form_valid(self, form):
@@ -19,10 +19,10 @@ class SingleUploadView(generic.FormView):
         return self.render_to_response(context)
 
 
-class SingleUploadWithModelView(generic.CreateView):
+class SingleWithModelView(generic.CreateView):
     """ファイルモデルのアップロードビュー"""
     model = Image
-    form_class = SingleUploadModelForm
+    form_class = SingleModelForm
     template_name = 'album/base.html'
     success_url = reverse_lazy('album:file_list')
 
@@ -32,7 +32,7 @@ class FileListView(generic.ListView):
     model = Image
 
 
-class MultiUploadView(generic.FormView):
+class MultiView(generic.FormView):
     form_class = UploadFormSet
     template_name = 'album/base.html'
 
@@ -46,7 +46,7 @@ class MultiUploadView(generic.FormView):
 
 
 def multi_upload_with_model(request):
-    formset = UploadModelFormSet(request.POST or None, files=request.FILES or None, queryset=Image.objects.none())
+    formset = ModelFormSet(request.POST or None, files=request.FILES or None, queryset=Image.objects.none())
     if request.method == 'POST' and formset.is_valid():
         formset.save()
         return redirect('album:file_list')
@@ -58,8 +58,8 @@ def multi_upload_with_model(request):
     return render(request, 'album/base.html', context)
 
 
-class InputMultiUploadView(generic.FormView):
-    form_class = MultipleUploadForm
+class InputMultiView(generic.FormView):
+    form_class = MultipleForm
     template_name = 'album/base.html'
 
     def form_valid(self, form):
