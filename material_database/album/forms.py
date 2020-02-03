@@ -3,7 +3,7 @@ from django.core.files.storage import default_storage
 from .models import Image
 
 
-class SingleUploadForm(forms.Form):
+class SingleForm(forms.Form):
     file = forms.ImageField(label='画像ファイル')
 
     def save(self):
@@ -12,14 +12,14 @@ class SingleUploadForm(forms.Form):
         return default_storage.url(file_name)
 
 
-class SingleUploadModelForm(forms.ModelForm):
+class SingleModelForm(forms.ModelForm):
 
     class Meta:
         model = Image
         fields = '__all__'
 
 
-class BaseUploadFormSet(forms.BaseFormSet):
+class BaseFormSet(forms.BaseFormSet):
 
     def save(self):
 
@@ -37,15 +37,15 @@ class BaseUploadFormSet(forms.BaseFormSet):
         return url_list
 
 
-UploadFormSet = forms.formset_factory(SingleUploadForm, formset=BaseUploadFormSet, extra=5)
+UploadFormSet = forms.formset_factory(SingleForm, formset=BaseFormSet, extra=5)
 
-UploadModelFormSet = forms.modelformset_factory(
-    Image, form=SingleUploadModelForm,
+ModelFormSet = forms.modelformset_factory(
+    Image, form=SingleModelForm,
     extra=3
 )
 
 
-class MultipleUploadForm(forms.Form):
+class MultipleForm(forms.Form):
     file = forms.ImageField(
         label='画像ファイル',
         widget=forms.ClearableFileInput(attrs={'multiple': True})
