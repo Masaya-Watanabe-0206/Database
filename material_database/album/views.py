@@ -6,7 +6,7 @@ from .models import Image
 
 
 
-class SingleUploadView(generic.FormView):
+class SingleView(generic.FormView):
     form_class = SingleForm
     template_name = 'album/base.html'
 
