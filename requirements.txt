@@ -2,7 +2,7 @@ argon2-cffi==19.2.0
 arrow==0.15.5
 asgiref==3.2.3
 binaryornot==0.4.4
-certifi==2019.11.28
+certifi==2022.12.7
 cffi==1.13.2
 chardet==3.0.4
 Click==7.0
